@@ -15,17 +15,55 @@ let addTarea = () => {
     contadorId++;
     let nuevoTextoInput = addInput.value;
 
-    
+
     list.innerHTML += ` 
     <div class="task col-6 mx-auto mt-2 d-flex  justify-content-between " id="${contadorId}">
         <label>
             <input type="checkbox" name="" id="">
                 ${nuevoTextoInput}
         </label>
-        <input type="submit" value="X" id="addBtn" class="btn btn-danger fw-bold me-4 closetBtn">
+        <img src="/images/trash.png" alt="trash" class="closetBtn small-trash img-fluid">
+    </a>
+
     </div>
     `;
 
     //resetear mi valor
-    addInput.value='';
+    addInput.value = '';
+
+
+    //creamos otra funcion para actualizar estado de tarea
+    UpdateEstado();
+};
+
+
+//
+list.addEventListener('click', (event) => {
+    if (event.srcElement.nodeName == 'INPUT') {
+        console.log(event.value)
+        UpdateEstado();
+    } else if(event.srcElement.nodeName == 'IMG'){
+        deleteTarea(event.srcElement.parentNode.id);
+    }
+})
+
+
+
+
+
+
+let UpdateEstado = () => {
+    let elemnt = list.querySelectorAll('div');
+    let checkbox = list.querySelectorAll('input[type="submit"]:checked');
+    estadoTask.innerHTML = `<p class="fw-bold">Tareas pendientes : ${elemnt.length} 
+     Completadas : ${checkbox.length} </p> `;
 }
+
+
+//funcion para borrar tareas
+let deleteTarea = (id) =>{
+
+    let removeTare = document.getElementById(id);
+    list.removeChild(removeTare);
+}
+
